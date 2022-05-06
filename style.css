@@ -65,12 +65,23 @@ textarea {
     font-size: 16px;
     text-align: center;
     line-height: 40px;
-    /* border: 1px solid black; */
     border-radius: 5px;
 }
 
-.backspace {
+.Backspace, .CapsLock, .ShiftLeft {
     width: 100px;
+}
+.Tab {
+    width: 50px;
+}
+.Delete {
+    width: 44px;
+}
+.Enter, .ShiftRight {
+    width: 86px;
+}
+.Space {
+    width: 330px;
 }
 
 .active {

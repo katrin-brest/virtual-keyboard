@@ -55,15 +55,14 @@ for (let i = 0; i < 5; i++) {
     }
 }
 
-rows[0].childNodes[rows[0].childNodes.length -1].classList.add('backspace');
-
 document.addEventListener('keydown', function(event) {
    let elem =  document.querySelector(`.${event.code}`);
    elem.classList.add('active');
-
-//    добавить код, чтобы в текстарию писались буквы
+   textarea.textContent += event.key;
   });
-document.addEventListener('keyup', function(event) {
+//   ДОБАВИТЬ ТАКОЙ ЖЕ СЛУШАТЕЛЬ НА НАЖАТИЕ КЛАВИШ НА ВИРТУАЛЬНОЙ КЛАВЕ!!!
+// проверить работу функциональных клавиш - работают только на английской раскладке!!
+document.addEventListener('keyup', function(event) {1
    let elem =  document.querySelector(`.${event.code}`);
    elem.classList.remove('active')
   });
