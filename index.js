@@ -56,34 +56,30 @@ for (let i = 0; i < 5; i++) {
 
 document.addEventListener('keydown', function(event) {
    let elem =  document.querySelector(`.${event.code}`);
-   if(elem === null) {
+      if(elem === null) {
        return 
    } else {
        elem.classList.add('active');
-   textarea.textContent += event.key;
+       if(elem.classList.contains('letter') || elem.classList.contains('digit') ) {
+           textarea.textContent += event.key;
    }
-   if(elem.innerText == 'CapsLock') {
-    letters.forEach(el => {
-        if(el.innerText == el.innerText.toLowerCase()) {
-            el.innerText = el.innerText.toUpperCase();
-        } else {
-            el.innerText = el.innerText.toLowerCase()
-        }
-    })
-   }
-  });
+   
+   }});
+    
 
   keyboard.addEventListener('click', function(event) {
     let elem =  event.target;
     if(elem === null) {
         return 
     } else {
-        textarea.textContent += elem.innerText;
+        if(elem.classList.contains('letter') || elem.classList.contains('digit')) {
+            textarea.textContent += elem.innerText;
+        }
     }
    });
  
 
-// проверить работу функциональных клавиш - работают только на английской раскладке!!
+// добавить работу функциональных клавиш - работает только капс!!
 document.addEventListener('keyup', function(event) {
    let elem =  document.querySelector(`.${event.code}`);
    if(elem === null) {
@@ -100,8 +96,12 @@ const buttons = document.querySelectorAll('.key');
 for(let but of buttons) {
     if (but.className.includes('Key')) {
         but.classList.add('letter')
+    } else if (but.className.includes('Digit')) {
+        but.classList.add('digit')
     }
-}
+ }
+
+const digits = document.querySelectorAll('.digit');
 const letters = document.querySelectorAll('.letter');
 const caps = document.querySelector('.CapsLock');
 
@@ -115,7 +115,7 @@ caps.addEventListener('click', () => {
         })
     })
 
-    document.addEventListener('keydown', function(event) {
+document.addEventListener('keydown', function(event) {
         if(event.code == 'CapsLock') {
             console.log(event.key)
             letters.forEach(el => {
