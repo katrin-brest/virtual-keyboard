@@ -54,13 +54,22 @@ for (let i = 0; i < 5; i++) {
     }
 }
 
-keyboard.addEventListener('keydown', function(event) {
+document.addEventListener('keydown', function(event) {
    let elem =  document.querySelector(`.${event.code}`);
    if(elem === null) {
        return 
    } else {
        elem.classList.add('active');
    textarea.textContent += event.key;
+   }
+   if(elem.innerText == 'CapsLock') {
+    letters.forEach(el => {
+        if(el.innerText == el.innerText.toLowerCase()) {
+            el.innerText = el.innerText.toUpperCase();
+        } else {
+            el.innerText = el.innerText.toLowerCase()
+        }
+    })
    }
   });
 
@@ -73,11 +82,7 @@ keyboard.addEventListener('keydown', function(event) {
     }
    });
  
-//    
 
-
-
-//   ДОБАВИТЬ ТАКОЙ ЖЕ СЛУШАТЕЛЬ НА НАЖАТИЕ КЛАВИШ НА ВИРТУАЛЬНОЙ КЛАВЕ!!!
 // проверить работу функциональных клавиш - работают только на английской раскладке!!
 document.addEventListener('keyup', function(event) {
    let elem =  document.querySelector(`.${event.code}`);
@@ -109,4 +114,17 @@ caps.addEventListener('click', () => {
             }
         })
     })
+
+    document.addEventListener('keydown', function(event) {
+        if(event.code == 'CapsLock') {
+            console.log(event.key)
+            letters.forEach(el => {
+           if(el.innerText == el.innerText.toLowerCase()) {
+               el.innerText = el.innerText.toUpperCase();
+           } else {
+               el.innerText = el.innerText.toLowerCase()
+           }
+       })
+        }
         
+   })
