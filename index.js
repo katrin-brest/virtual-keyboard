@@ -22,7 +22,6 @@ keyboard.append(row)
 }
 
 const rows = document.querySelectorAll('.row');
-console.log(rows)
 
 function buttonMaker (key, place, ownClass) {
     const button = document.createElement('div');
@@ -55,15 +54,59 @@ for (let i = 0; i < 5; i++) {
     }
 }
 
-document.addEventListener('keydown', function(event) {
+keyboard.addEventListener('keydown', function(event) {
    let elem =  document.querySelector(`.${event.code}`);
-   elem.classList.add('active');
+   if(elem === null) {
+       return 
+   } else {
+       elem.classList.add('active');
    textarea.textContent += event.key;
+   }
   });
+
+  keyboard.addEventListener('click', function(event) {
+    let elem =  event.target;
+    if(elem === null) {
+        return 
+    } else {
+        textarea.textContent += elem.innerText;
+    }
+   });
+ 
+//    
+
+
+
 //   ДОБАВИТЬ ТАКОЙ ЖЕ СЛУШАТЕЛЬ НА НАЖАТИЕ КЛАВИШ НА ВИРТУАЛЬНОЙ КЛАВЕ!!!
 // проверить работу функциональных клавиш - работают только на английской раскладке!!
-document.addEventListener('keyup', function(event) {1
+document.addEventListener('keyup', function(event) {
    let elem =  document.querySelector(`.${event.code}`);
+   if(elem === null) {
+    return 
+} else {
    elem.classList.remove('active')
-  });
+  }});
  
+
+//   делаем капс
+
+const buttons = document.querySelectorAll('.key');
+
+for(let but of buttons) {
+    if (but.className.includes('Key')) {
+        but.classList.add('letter')
+    }
+}
+const letters = document.querySelectorAll('.letter');
+const caps = document.querySelector('.CapsLock');
+
+caps.addEventListener('click', () => {
+         letters.forEach(el => {
+            if(el.innerText == el.innerText.toLowerCase()) {
+                el.innerText = el.innerText.toUpperCase();
+            } else {
+                el.innerText = el.innerText.toLowerCase()
+            }
+        })
+    })
+        

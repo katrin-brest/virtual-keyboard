@@ -68,6 +68,13 @@ textarea {
     border-radius: 5px;
 }
 
+.key:hover {
+    background-color: rgb(255, 255, 255);
+    color: rgb(202, 149, 136);
+    cursor: pointer;
+    transition: 0.2s;
+}
+
 .Backspace, .CapsLock, .ShiftLeft {
     width: 100px;
 }
