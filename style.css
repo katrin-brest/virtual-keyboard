@@ -95,3 +95,10 @@ textarea {
     background-color: rgb(255, 255, 255);
     color: rgb(202, 149, 136);
 }
+
+.text {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 18px;
+    font-style: italic;
+}

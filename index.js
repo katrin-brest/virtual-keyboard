@@ -15,6 +15,16 @@ const keyboard = document.createElement("div");
 keyboard.className = "keyboard";
 wrapper.append(keyboard);
 
+const text1 = document.createElement("p");
+text1.innerText = "OS: Windows";
+text1.className = "text";
+wrapper.append(text1);
+
+const text2 = document.createElement("p");
+text2.innerText = "Press Alt+Shift to change language";
+text2.className = "text";
+wrapper.append(text2);
+
 for(let i = 0; i <5; i++) {
 let row = document.createElement("div");
 row.className = "row";
@@ -125,6 +135,7 @@ document.addEventListener("keydown", function(event) {
                el.innerText = el.innerText.toLowerCase();
            }
        });
-        }
-        
-   });
+     } });
+
+    //  смена языков
+
