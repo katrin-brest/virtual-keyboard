@@ -65,7 +65,7 @@ for (let i = 0; i < 5; i++) {
 }
 
 document.addEventListener("keydown", (event) => {
-   let elem =  document.querySelector(`.${event.code}`);
+   const elem =  document.querySelector(`.${event.code}`);
       if(elem === null) {
        return;
    } else {
@@ -73,6 +73,9 @@ document.addEventListener("keydown", (event) => {
        if(elem.classList.contains("letter") || elem.classList.contains("digit") || elem.classList.contains("Backquote") || elem.classList.contains("Equal") || elem.classList.contains("Minus") || elem.classList.contains("Minus") || elem.classList.contains("Bracket") || elem.classList.contains("Backslash") || elem.classList.contains("Semicolon") || elem.classList.contains("Comma")|| elem.classList.contains("Period")||elem.classList.contains("Slash")|| elem.classList.contains("Quote")) {
            textarea.textContent += event.key;
    }
+   if(elem.classList.contains("Space")){
+    textarea.textContent += " ";
+}
    
    }});
     
