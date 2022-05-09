@@ -88,7 +88,7 @@ document.addEventListener("keydown", function(event) {
             textarea.textContent += elem.innerText;
         }
         if(elem.classList.contains("Space")){
-            textarea.textContent += " "
+            textarea.textContent += " ";
         }
     }
  } );
@@ -155,10 +155,8 @@ document.addEventListener("keydown", function(event) {
     //  смена языков
 const rusLetters = ["й", "ц", "у", "к", "е", "н", "г", "ш", "щ", "з", "ф", "ы", "в", "а", "п", "р", "о", "л", "д", "я", "ч", "с", "м","и", "т", "ь"];
 
-console.log(enLetters.length); 
-
 document.addEventListener("keydown", (event) => {
-if(event.altKey && event.shiftKey && buttons[0].textContent == "\`") {
+if(event.altKey && event.shiftKey && buttons[0].textContent == "`") {
        for(let i=0; i < letters.length; i++) {
            letters[i].innerText = rusLetters[i]; 
        }
