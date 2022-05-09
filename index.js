@@ -64,7 +64,7 @@ for (let i = 0; i < 5; i++) {
     }
 }
 
-document.addEventListener("keydown", function(event) {
+document.addEventListener("keydown", (event) => {
    let elem =  document.querySelector(`.${event.code}`);
       if(elem === null) {
        return;
@@ -77,7 +77,7 @@ document.addEventListener("keydown", function(event) {
    }});
     
 
-  keyboard.addEventListener("click", function(event) {
+  keyboard.addEventListener("click", (event) => {
     let elem =  event.target;
     if(elem === null) {
         return ;
@@ -93,7 +93,7 @@ document.addEventListener("keydown", function(event) {
     }
  } );
 // добавить работу функциональных клавиш - работает только капс!!
-document.addEventListener("keyup", function(event) {
+document.addEventListener("keyup", (event) => {
    let elem =  document.querySelector(`.${event.code}`);
    if(elem === null) {
     return ;
@@ -126,7 +126,7 @@ caps.addEventListener("click", () => {
         });
     });
 
-document.addEventListener("keydown", function(event) {
+document.addEventListener("keydown", (event) => {
         if(event.code == "CapsLock") {
             console.log(event.key);
             letters.forEach(el => {
