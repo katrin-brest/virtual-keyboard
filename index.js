@@ -21,7 +21,7 @@ text1.className = "text";
 wrapper.append(text1);
 
 const text2 = document.createElement("p");
-text2.innerText = "Press Alt+Shift to change language";
+text2.innerText = "Press Alt+Shift to change English to Russian";
 text2.className = "text";
 wrapper.append(text2);
 
@@ -104,6 +104,7 @@ document.addEventListener("keyup", function(event) {
 //   делаем капс
 const buttons = document.querySelectorAll(".key");
 
+
 for(let but of buttons) {
     if (but.className.includes("Key")) {
         but.classList.add("letter");
@@ -131,11 +132,42 @@ document.addEventListener("keydown", function(event) {
             letters.forEach(el => {
            if(el.innerText == el.innerText.toLowerCase()) {
                el.innerText = el.innerText.toUpperCase();
+               buttons[25].innerText= buttons[25].innerText.toUpperCase();
+               buttons[26].innerText= buttons[26].innerText.toUpperCase();
+               buttons[0].innerText= buttons[0].innerText.toUpperCase();
+               buttons[39].innerText= buttons[39].innerText.toUpperCase();
+               buttons[40].innerText= buttons[40].innerText.toUpperCase();
+               buttons[50].innerText= buttons[50].innerText.toUpperCase();
+               buttons[51].innerText= buttons[51].innerText.toUpperCase();
            } else {
                el.innerText = el.innerText.toLowerCase();
+               buttons[25].innerText= buttons[25].innerText.toLowerCase();
+               buttons[26].innerText= buttons[26].innerText.toLowerCase();
+               buttons[0].innerText= buttons[0].innerText.toLowerCase();
+               buttons[39].innerText= buttons[39].innerText.toLowerCase();
+               buttons[40].innerText= buttons[40].innerText.toLowerCase();
+               buttons[50].innerText= buttons[50].innerText.toLowerCase();
+               buttons[51].innerText= buttons[51].innerText.toLowerCase();
            }
        });
      } });
 
     //  смена языков
+const rusLetters = ["й", "ц", "у", "к", "е", "н", "г", "ш", "щ", "з", "ф", "ы", "в", "а", "п", "р", "о", "л", "д", "я", "ч", "с", "м","и", "т", "ь"];
 
+console.log(enLetters.length); 
+
+document.addEventListener("keydown", (event) => {
+if(event.altKey && event.shiftKey && buttons[0].textContent == "\`") {
+       for(let i=0; i < letters.length; i++) {
+           letters[i].innerText = rusLetters[i]; 
+       }
+       buttons[25].innerText = "х";
+       buttons[26].innerText = "ъ";
+       buttons[0].innerText = "ё";
+       buttons[39].innerText = "ж";
+       buttons[40].innerText = "э";
+       buttons[50].innerText = "б";
+       buttons[51].innerText = "ю";
+    }});
+// добавить смену на английский алфавит обратно
