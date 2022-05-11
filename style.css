@@ -72,7 +72,8 @@ textarea {
     background-color: rgb(255, 255, 255);
     color: rgb(202, 149, 136);
     cursor: pointer;
-    transition: 0.2s;
+    transition: 0.3s;
+    transform: scale(1.3);
 }
 
 .Backspace, .CapsLock, .ShiftLeft {
@@ -94,6 +95,8 @@ textarea {
 .active {
     background-color: rgb(255, 255, 255);
     color: rgb(202, 149, 136);
+    transition: 00.3s;
+    transform: scale(1.3);
 }
 
 .text {
