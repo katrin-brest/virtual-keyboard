@@ -45,7 +45,7 @@ const row0 = ["`", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "-", "=", "
 const row1 = ["Tab", "q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "[", "]", "\\", "Del"];
 const row2 = ["Capslock", "a", "s", "d", "f", "g", "h", "j", "k", "l", ";", "'", "Enter"];
 const row3 = ["Shift", "z", "x", "c", "v", "b", "n", "m", ",", ".", "/", "▲", "Shift"];
-const row4 = ["Ctrl", "Win", "Alt", " ", "Alt", "◄", "▼", "►", "Ctrl"];
+const row4 = ["Ctrl", "ENG ", "Alt", " ", "Alt", "◄", "▼", "►", "Ctrl"];
 
 const rowList = [row0, row1, row2, row3, row4];
 
@@ -53,7 +53,7 @@ const ownClass0 = ["Backquote", "Digit1", "Digit2", "Digit3", "Digit4", "Digit5"
 const ownClass1 = ["Tab", "KeyQ",  "KeyW", "KeyE", "KeyR", "KeyT", "KeyY", "KeyU", "KeyI", "KeyO", "KeyP",  "BracketLeft", "BracketRight", "Backslash", "Delete"];
 const ownClass2 = ["CapsLock",  "KeyA", "KeyS", "KeyD", "KeyF", "KeyG", "KeyH", "KeyJ", "KeyK", "KeyL", "Semicolon", "Quote", "Enter"];
 const ownClass3 = ["ShiftLeft",  "KeyZ", "KeyX", "KeyC", "KeyV", "KeyB", "KeyN", "KeyM", "Comma", "Period", "Slash", "ArrowUp", "ShiftRight"];
-const ownClass4 = ["ControlLeft", "MetaLeft", "AltLeft", "Space", "AltRight", "ArrowLeft", "ArrowDown", "ArrowRight", "ControlRight"];
+const ownClass4 = ["ControlLeft", "lang", "AltLeft", "Space", "AltRight", "ArrowLeft", "ArrowDown", "ArrowRight", "ControlRight"];
 
 
 const ownClasses = [ownClass0, ownClass1, ownClass2, ownClass3, ownClass4];
@@ -78,7 +78,16 @@ document.addEventListener("keydown", (event) => {
 }
    
    }});
-    
+
+// подсветка клавиш при нажатии
+document.addEventListener("keyup", (event) => {
+    let elem =  document.querySelector(`.${event.code}`);
+    if(elem === null) {
+     return ;
+ } else {
+    elem.classList.remove("active");
+   }});
+   
 
   keyboard.addEventListener("click", (event) => {
     let elem =  event.target;
@@ -95,18 +104,11 @@ document.addEventListener("keydown", (event) => {
         }
     }
  } );
-// добавить работу функциональных клавиш - работает только капс!!
-document.addEventListener("keyup", (event) => {
-   let elem =  document.querySelector(`.${event.code}`);
-   if(elem === null) {
-    return ;
-} else {
-   elem.classList.remove("active");
-  }});
+
+
  
 //   делаем капс
 const buttons = document.querySelectorAll(".key");
-
 
 for(let but of buttons) {
     if (but.className.includes("Key")) {
@@ -117,58 +119,95 @@ for(let but of buttons) {
  }
 
 const letters = document.querySelectorAll(".letter");
+const symbols= [buttons[0], buttons[25], buttons[26], buttons [39], buttons[40], buttons[50], buttons[51]];
+
 const caps = document.querySelector(".CapsLock");
 
 caps.addEventListener("click", () => {
+
          letters.forEach(el => {
             if(el.innerText == el.innerText.toLowerCase()) {
                 el.innerText = el.innerText.toUpperCase();
-            } else {
+                 } else {
                 el.innerText = el.innerText.toLowerCase();
             }
         });
+        symbols.forEach(el => {
+            if(el.innerText == el.innerText.toLowerCase()) {
+                  el.innerText = el.innerText.toUpperCase();
+             } else {
+             el.innerText = el.innerText.toLowerCase();
+             }})
+
+        caps.classList.toggle('on');
     });
 
 document.addEventListener("keydown", (event) => {
         if(event.code == "CapsLock") {
+
             console.log(event.key);
+
             letters.forEach(el => {
+                if(el.innerText == el.innerText.toLowerCase()) {
+                    el.innerText = el.innerText.toUpperCase();
+                   } else {
+                  el.innerText = el.innerText.toLowerCase();
+                      }});
+
+       symbols.forEach(el => {
            if(el.innerText == el.innerText.toLowerCase()) {
-               el.innerText = el.innerText.toUpperCase();
-               buttons[25].innerText= buttons[25].innerText.toUpperCase();
-               buttons[26].innerText= buttons[26].innerText.toUpperCase();
-               buttons[0].innerText= buttons[0].innerText.toUpperCase();
-               buttons[39].innerText= buttons[39].innerText.toUpperCase();
-               buttons[40].innerText= buttons[40].innerText.toUpperCase();
-               buttons[50].innerText= buttons[50].innerText.toUpperCase();
-               buttons[51].innerText= buttons[51].innerText.toUpperCase();
-           } else {
-               el.innerText = el.innerText.toLowerCase();
-               buttons[25].innerText= buttons[25].innerText.toLowerCase();
-               buttons[26].innerText= buttons[26].innerText.toLowerCase();
-               buttons[0].innerText= buttons[0].innerText.toLowerCase();
-               buttons[39].innerText= buttons[39].innerText.toLowerCase();
-               buttons[40].innerText= buttons[40].innerText.toLowerCase();
-               buttons[50].innerText= buttons[50].innerText.toLowerCase();
-               buttons[51].innerText= buttons[51].innerText.toLowerCase();
-           }
-       });
+                 el.innerText = el.innerText.toUpperCase();
+            } else {
+            el.innerText = el.innerText.toLowerCase();
+            }})
+            caps.classList.toggle('on');    
      } });
 
     //  смена языков
 const rusLetters = ["й", "ц", "у", "к", "е", "н", "г", "ш", "щ", "з", "ф", "ы", "в", "а", "п", "р", "о", "л", "д", "я", "ч", "с", "м","и", "т", "ь"];
+const engLetters = ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'z', 'x', 'c', 'v', 'b', 'n', 'm']; 
 
+const rusSymbols = ['ё', 'х', 'ъ', 'ж', 'э','б', 'ю'];
+const engSymbols = ['`', '[', ']', ';', '\'',',', '.'];
+
+
+const lang = document.querySelector(".lang");
+lang.classList.add ('en');
 document.addEventListener("keydown", (event) => {
-if(event.altKey && event.shiftKey && buttons[0].textContent == "`") {
+if(event.altKey && event.shiftKey && lang.classList.contains('en')) {
        for(let i=0; i < letters.length; i++) {
-           letters[i].innerText = rusLetters[i]; 
+            if(caps.classList.contains('on')) {
+                letters[i].innerText = rusLetters[i].toUpperCase();
+           } else {
+            letters[i].innerText = rusLetters[i];
+           }           
        }
-       buttons[25].innerText = "х";
-       buttons[26].innerText = "ъ";
-       buttons[0].innerText = "ё";
-       buttons[39].innerText = "ж";
-       buttons[40].innerText = "э";
-       buttons[50].innerText = "б";
-       buttons[51].innerText = "ю";
-    }});
-// добавить смену на английский алфавит обратно
+
+       for(let i=0; i < symbols.length; i++) {
+        if(caps.classList.contains('on')) {
+            symbols[i].innerText = rusSymbols[i].toUpperCase(); 
+    } else {
+        symbols[i].innerText = rusSymbols[i]; 
+    }}        
+    
+       lang.textContent = 'RUS'
+       lang.classList.remove('en');
+       lang.classList.add('rus');
+    } else if(event.altKey && event.shiftKey && lang.classList.contains('rus')) {
+        for(let i=0; i < letters.length; i++) {
+            if(caps.classList.contains('on')) {
+                letters[i].innerText = engLetters[i].toUpperCase();
+            } else {
+                letters[i].innerText = engLetters[i]; 
+            }                     
+        }
+        for(let i=0; i < symbols.length; i++) {
+            symbols[i].innerText = engSymbols[i]; 
+        }
+        lang.textContent = "ENG";
+        lang.classList.remove('ru');
+        lang.classList.add('en');
+        }
+});
+
+
