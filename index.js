@@ -63,23 +63,15 @@ for (let i = 0; i < 5; i++) {
         buttonMaker(rowList[i][j], rows[i], ownClasses[i][j]);
     }
 }
-
+// подсветка клавиш
 document.addEventListener("keydown", (event) => {
    const elem =  document.querySelector(`.${event.code}`);
       if(elem === null) {
        return;
    } else {
        elem.classList.add("active");
-       if(elem.classList.contains("letter") || elem.classList.contains("digit") || elem.classList.contains("Backquote") || elem.classList.contains("Equal") || elem.classList.contains("Minus") || elem.classList.contains("Minus") || elem.classList.contains("Bracket") || elem.classList.contains("Backslash") || elem.classList.contains("Semicolon") || elem.classList.contains("Comma")|| elem.classList.contains("Period")||elem.classList.contains("Slash")|| elem.classList.contains("Quote")) {
-           textarea.textContent += event.key;
-   }
-   if(elem.classList.contains("Space")){
-    textarea.textContent += " ";
-}
-   
-   }});
+       }});
 
-// подсветка клавиш при нажатии
 document.addEventListener("keyup", (event) => {
     let elem =  document.querySelector(`.${event.code}`);
     if(elem === null) {
@@ -87,26 +79,103 @@ document.addEventListener("keyup", (event) => {
  } else {
     elem.classList.remove("active");
    }});
-   
+// Выносим действия с клавишами в отдельную функцию
 
-  keyboard.addEventListener("click", (event) => {
-    let elem =  event.target;
+
+
+function inputText(elem) {
+    let pos = textarea.selectionStart;
+    
     if(elem === null) {
         return ;
     } else {
-        if(elem.classList.contains("letter") || elem.classList.contains("digit")|| elem.classList.contains("Backquote") || elem.classList.contains("Equal") || elem.classList.contains("Minus") || elem.classList.contains("Minus") || elem.classList.contains("BracketRight") || elem.classList.contains("BracketLeft") ||elem.classList.contains("Backslash") || elem.classList.contains("Semicolon") || elem.classList.contains("Comma")|| elem.classList.contains("Period")||elem.classList.contains("Slash") || elem.classList.contains("Quote") ) {
-           console.log(elem);
-           console.log(elem.innerText);
+      
+        if(elem.classList.contains("letter") || elem.classList.contains("digit")|| elem.classList.contains("Equal") || elem.classList.contains("Minus")|| elem.classList.contains('Backquote') || elem.classList.contains("BracketRight") || elem.classList.contains("BracketLeft") ||elem.classList.contains("Backslash") || elem.classList.contains("Semicolon") || elem.classList.contains("Comma")|| elem.classList.contains("Period")||elem.classList.contains("Slash") || elem.classList.contains("Quote") ) {
+           
+            if(pos == 0) {
             textarea.textContent += elem.innerText;
-        }
+           } else {
+            textarea.textContent = textarea.textContent.slice(0, pos) + elem.innerText + textarea.textContent.slice(pos);
+           }}
+
         if(elem.classList.contains("Space")){
-            textarea.textContent += " ";
+            if(pos == 0) {
+                textarea.textContent += " ";
+            } else {
+                textarea.textContent = textarea.textContent.slice(0, pos) + " " + textarea.textContent.slice(pos);
+              }       
         }
+        textarea.selectionStart = pos+1;
     }
- } );
+}
+keyboard.addEventListener('click', (event) => inputText(event.target));
+document.addEventListener('keydown', (event) => inputText(document.querySelector(`.${event.code}`)));
 
 
- 
+
+
+   
+// печатаем в текстареа с виртуальной клавиатуры
+//   keyboard.addEventListener("click", (event) => {
+//     let elem =  event.target;
+//     let pos = textarea.selectionStart;
+    
+//     if(elem === null) {
+//         return ;
+//     } else {
+      
+//         if(elem.classList.contains("letter") || elem.classList.contains("digit")|| elem.classList.contains("Equal") || elem.classList.contains("Minus")|| elem.classList.contains('Backquote') || elem.classList.contains("BracketRight") || elem.classList.contains("BracketLeft") ||elem.classList.contains("Backslash") || elem.classList.contains("Semicolon") || elem.classList.contains("Comma")|| elem.classList.contains("Period")||elem.classList.contains("Slash") || elem.classList.contains("Quote") ) {
+           
+//             if(pos == 0) {
+//             textarea.textContent += elem.innerText;
+//            } else {
+//             textarea.textContent = textarea.textContent.slice(0, pos) + elem.innerText + textarea.textContent.slice(pos);
+//            }}
+
+//         if(elem.classList.contains("Space")){
+//             if(pos == 0) {
+//                 textarea.textContent += " ";
+//             } else {
+//                 textarea.textContent = textarea.textContent.slice(0, pos) + " " + textarea.textContent.slice(pos);
+//               }       
+//         }
+//         textarea.selectionStart = pos+1;
+//     }
+//  } );
+
+//  делаем, чтобы текстареа не теряла фокус при кликам по виртулаьной клавиатуре
+ keyboard.onmousedown = (e) => {
+    if(document.activeElement === textarea) {
+        e.preventDefault();
+    }
+ }
+
+// печать с реальной клавиатуры
+// document.addEventListener("keydown", (event) => {
+//     const elem =  document.querySelector(`.${event.code}`);
+//     let pos = textarea.selectionStart;
+//        if(elem === null) {
+//         return;
+//     } else {
+
+//         if(elem.classList.contains("letter") || elem.classList.contains("digit")|| elem.classList.contains("Equal") || elem.classList.contains("Minus")|| elem.classList.contains('Backquote') || elem.classList.contains("BracketRight") || elem.classList.contains("BracketLeft") ||elem.classList.contains("Backslash") || elem.classList.contains("Semicolon") || elem.classList.contains("Comma")|| elem.classList.contains("Period")||elem.classList.contains("Slash") || elem.classList.contains("Quote") ) {
+           
+//             if(pos == 0) {
+//             textarea.textContent += elem.innerText;
+//            } else {
+//             textarea.textContent = textarea.textContent.slice(0, pos) + elem.innerText + textarea.textContent.slice(pos);
+//            }}
+
+//         if(elem.classList.contains("Space")){
+//             if(pos == 0) {
+//                 textarea.textContent += " ";
+//             } else {
+//                 textarea.textContent = textarea.textContent.slice(0, pos) + " " + textarea.textContent.slice(pos);
+//               }       
+//         }
+//         textarea.selectionStart = pos+1;
+//         }});
+
 //   делаем капс
 const buttons = document.querySelectorAll(".key");
 
