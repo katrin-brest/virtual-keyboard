@@ -79,69 +79,57 @@ document.addEventListener("keyup", (event) => {
  } else {
     elem.classList.remove("active");
    }});
+
+
 // Выносим действия с клавишами в отдельную функцию
 
-
-
 function inputText(elem) {
+
+    if(!textarea.onfocus) {
+        textarea.focus();
+    }
     let pos = textarea.selectionStart;
+    let posEnd = textarea.selectionEnd;
     
     if(elem === null) {
         return ;
     } else {
-      
+        //   печатаем буквы, цифры и символы
         if(elem.classList.contains("letter") || elem.classList.contains("digit")|| elem.classList.contains("Equal") || elem.classList.contains("Minus")|| elem.classList.contains('Backquote') || elem.classList.contains("BracketRight") || elem.classList.contains("BracketLeft") ||elem.classList.contains("Backslash") || elem.classList.contains("Semicolon") || elem.classList.contains("Comma")|| elem.classList.contains("Period")||elem.classList.contains("Slash") || elem.classList.contains("Quote") ) {
            
             if(pos == 0) {
             textarea.textContent += elem.innerText;
-           } else {
-            textarea.textContent = textarea.textContent.slice(0, pos) + elem.innerText + textarea.textContent.slice(pos);
-           }}
-
-        if(elem.classList.contains("Space")){
-            if(pos == 0) {
-                textarea.textContent += " ";
             } else {
-                textarea.textContent = textarea.textContent.slice(0, pos) + " " + textarea.textContent.slice(pos);
-              }       
+            textarea.textContent = textarea.textContent.slice(0, pos) + elem.innerText + textarea.textContent.slice(pos);
+            }
+            textarea.selectionStart = pos+1;
         }
-        textarea.selectionStart = pos+1;
+        // пробел
+        if(elem.classList.contains("Space")){
+            textarea.textContent = textarea.textContent.slice(0, pos) + " " + textarea.textContent.slice(pos);
+            textarea.selectionStart = pos+1;  
+        }    
+        // удалить назад, в т. ч. диапазон
+        if(elem.classList.contains('Backspace')) {
+            textarea.textContent = textarea.textContent.slice(0, pos) + textarea.textContent.slice(posEnd);
+            textarea.selectionStart = pos;
+            }
+        }
+        // удаляем вперед, в т.ч. диапазон
+        if(elem.classList.contains('Delete')) {
+            textarea.textContent = textarea.textContent.slice(0, pos) + textarea.textContent.slice(posEnd);
+            textarea.selectionStart = pos;
+        }
     }
-}
+
+
+// печатаем в текстареа с виртуальной клавиатуры = глючит печать с вирт клавиатуры!!! - проверить
 keyboard.addEventListener('click', (event) => inputText(event.target));
+
+// печать с реальной клавиатуры
 document.addEventListener('keydown', (event) => inputText(document.querySelector(`.${event.code}`)));
+document.addEventListener('keydown', (event) => event.preventDefault());
 
-
-
-
-   
-// печатаем в текстареа с виртуальной клавиатуры
-//   keyboard.addEventListener("click", (event) => {
-//     let elem =  event.target;
-//     let pos = textarea.selectionStart;
-    
-//     if(elem === null) {
-//         return ;
-//     } else {
-      
-//         if(elem.classList.contains("letter") || elem.classList.contains("digit")|| elem.classList.contains("Equal") || elem.classList.contains("Minus")|| elem.classList.contains('Backquote') || elem.classList.contains("BracketRight") || elem.classList.contains("BracketLeft") ||elem.classList.contains("Backslash") || elem.classList.contains("Semicolon") || elem.classList.contains("Comma")|| elem.classList.contains("Period")||elem.classList.contains("Slash") || elem.classList.contains("Quote") ) {
-           
-//             if(pos == 0) {
-//             textarea.textContent += elem.innerText;
-//            } else {
-//             textarea.textContent = textarea.textContent.slice(0, pos) + elem.innerText + textarea.textContent.slice(pos);
-//            }}
-
-//         if(elem.classList.contains("Space")){
-//             if(pos == 0) {
-//                 textarea.textContent += " ";
-//             } else {
-//                 textarea.textContent = textarea.textContent.slice(0, pos) + " " + textarea.textContent.slice(pos);
-//               }       
-//         }
-//         textarea.selectionStart = pos+1;
-//     }
-//  } );
 
 //  делаем, чтобы текстареа не теряла фокус при кликам по виртулаьной клавиатуре
  keyboard.onmousedown = (e) => {
@@ -149,32 +137,6 @@ document.addEventListener('keydown', (event) => inputText(document.querySelector
         e.preventDefault();
     }
  }
-
-// печать с реальной клавиатуры
-// document.addEventListener("keydown", (event) => {
-//     const elem =  document.querySelector(`.${event.code}`);
-//     let pos = textarea.selectionStart;
-//        if(elem === null) {
-//         return;
-//     } else {
-
-//         if(elem.classList.contains("letter") || elem.classList.contains("digit")|| elem.classList.contains("Equal") || elem.classList.contains("Minus")|| elem.classList.contains('Backquote') || elem.classList.contains("BracketRight") || elem.classList.contains("BracketLeft") ||elem.classList.contains("Backslash") || elem.classList.contains("Semicolon") || elem.classList.contains("Comma")|| elem.classList.contains("Period")||elem.classList.contains("Slash") || elem.classList.contains("Quote") ) {
-           
-//             if(pos == 0) {
-//             textarea.textContent += elem.innerText;
-//            } else {
-//             textarea.textContent = textarea.textContent.slice(0, pos) + elem.innerText + textarea.textContent.slice(pos);
-//            }}
-
-//         if(elem.classList.contains("Space")){
-//             if(pos == 0) {
-//                 textarea.textContent += " ";
-//             } else {
-//                 textarea.textContent = textarea.textContent.slice(0, pos) + " " + textarea.textContent.slice(pos);
-//               }       
-//         }
-//         textarea.selectionStart = pos+1;
-//         }});
 
 //   делаем капс
 const buttons = document.querySelectorAll(".key");
