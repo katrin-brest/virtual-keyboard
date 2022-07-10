@@ -111,16 +111,57 @@ function inputText(elem) {
         }    
         // удалить назад, в т. ч. диапазон
         if(elem.classList.contains('Backspace')) {
-            textarea.textContent = textarea.textContent.slice(0, pos) + textarea.textContent.slice(posEnd);
-            textarea.selectionStart = pos;
+            if(pos === posEnd) {
+                textarea.textContent = textarea.textContent.slice(0, pos-1) + textarea.textContent.slice(posEnd);
+                textarea.selectionStart = pos-1;
+            } else {
+                textarea.textContent = textarea.textContent.slice(0, pos) + textarea.textContent.slice(posEnd);
+                textarea.selectionStart = pos;
             }
         }
+        
         // удаляем вперед, в т.ч. диапазон
-        if(elem.classList.contains('Delete')) {
-            textarea.textContent = textarea.textContent.slice(0, pos) + textarea.textContent.slice(posEnd);
-            textarea.selectionStart = pos;
+        if(elem.classList.contains('Delete')) { 
+            if(pos === posEnd) {
+                textarea.textContent = textarea.textContent.slice(0, pos) + textarea.textContent.slice(posEnd + 1);
+                textarea.selectionStart = posEnd;
+            } else {
+                textarea.textContent = textarea.textContent.slice(0, pos) + textarea.textContent.slice(posEnd);
+                textarea.selectionStart = pos;
+            }
         }
-    }
+        // делаем Таб
+        if(elem.classList.contains('Tab')) {
+           textarea.textContent = textarea.textContent.slice(0, pos) + "        " + textarea.textContent.slice(pos);
+           textarea.selectionStart = pos + 8;
+        }
+
+        // делаем стрелки
+        if(elem.classList.contains('ArrowRight')) {
+            textarea.selectionStart++;
+            textarea.selectionEnd = textarea.selectionStart;
+        }
+        if(elem.classList.contains('ArrowLeft')) {
+            textarea.selectionStart--;
+            textarea.selectionEnd = textarea.selectionStart;
+        }
+        if(elem.classList.contains('ArrowDown')) {
+            textarea.textContent = textarea.textContent.slice(0, pos) + "не хочу вниз🠗" + textarea.textContent.slice(pos);
+            textarea.selectionStart = pos + 14;
+        }
+        if(elem.classList.contains('ArrowUp')) {
+            textarea.textContent = textarea.textContent.slice(0, pos) + "не хочу вверх🠕" + textarea.textContent.slice(pos);
+            textarea.selectionStart = pos + 15;
+        }
+
+        // делаем Enter
+        if(elem.classList.contains('Enter')) {
+            textarea.textContent = textarea.textContent.slice(0, pos) + "\n" + textarea.textContent.slice(pos);
+            textarea.selectionStart= pos+1;
+          }
+
+
+    }}
 
 
 // печатаем в текстареа с виртуальной клавиатуры = глючит печать с вирт клавиатуры!!! - проверить
