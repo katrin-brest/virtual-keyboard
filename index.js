@@ -21,7 +21,7 @@ text1.className = "text";
 wrapper.append(text1);
 
 const text2 = document.createElement("p");
-text2.innerText = "Press Alt+Shift to change English to Russian";
+text2.innerText = "Press Alt+Shift to change language";
 text2.className = "text";
 wrapper.append(text2);
 
@@ -138,12 +138,13 @@ function inputText(elem) {
 
         // делаем стрелки
         if(elem.classList.contains('ArrowRight')) {
-            textarea.selectionStart++;
-            textarea.selectionEnd = textarea.selectionStart;
-        }
+            textarea.selectionEnd++;
+            textarea.selectionStart = pos + 1;
+            } 
+                
         if(elem.classList.contains('ArrowLeft')) {
             textarea.selectionStart--;
-            textarea.selectionEnd = textarea.selectionStart;
+            textarea.selectionEnd = posEnd-1;
         }
         if(elem.classList.contains('ArrowDown')) {
             textarea.textContent = textarea.textContent.slice(0, pos) + "не хочу вниз🠗" + textarea.textContent.slice(pos);
@@ -159,10 +160,23 @@ function inputText(elem) {
             textarea.textContent = textarea.textContent.slice(0, pos) + "\n" + textarea.textContent.slice(pos);
             textarea.selectionStart= pos+1;
           }
-
-
     }}
 
+// выделение на Shift + Arrows
+document.addEventListener('keydown', (event) => {
+
+    
+    if(event.shiftKey && event.key == 'ArrowRight') {
+        console.log(textarea.selectionStart, textarea.selectionEnd);
+        textarea.selectionStart = textarea.selectionStart-1;
+    }
+    if(event.shiftKey && event.key == 'ArrowLeft') {
+        console.log(textarea.selectionStart, textarea.selectionEnd);
+        // textarea.selectionStart--;
+        textarea.selectionEnd = textarea.selectionEnd+1;
+
+    }
+})
 
 // печатаем в текстареа с виртуальной клавиатуры = глючит печать с вирт клавиатуры!!! - проверить
 keyboard.addEventListener('click', (event) => inputText(event.target));
