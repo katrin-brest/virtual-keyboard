@@ -95,7 +95,7 @@ function inputText(elem) {
         return ;
     } else {
         //   печатаем буквы, цифры и символы
-        if(elem.classList.contains("letter") || elem.classList.contains("digit")|| elem.classList.contains("Equal") || elem.classList.contains("Minus")|| elem.classList.contains('Backquote') || elem.classList.contains("BracketRight") || elem.classList.contains("BracketLeft") ||elem.classList.contains("Backslash") || elem.classList.contains("Semicolon") || elem.classList.contains("Comma")|| elem.classList.contains("Period")||elem.classList.contains("Slash") || elem.classList.contains("Quote") ) {
+        if(elem.classList.contains("letter") || elem.classList.contains("digit")|| elem.classList.contains("Equal") || elem.classList.contains("Minus")|| elem.classList.contains("Backquote") || elem.classList.contains("BracketRight") || elem.classList.contains("BracketLeft") ||elem.classList.contains("Backslash") || elem.classList.contains("Semicolon") || elem.classList.contains("Comma")|| elem.classList.contains("Period")||elem.classList.contains("Slash") || elem.classList.contains("Quote") ) {
            
             if(pos == 0) {
             textarea.textContent += elem.innerText;
@@ -110,7 +110,7 @@ function inputText(elem) {
             textarea.selectionStart = pos+1;  
         }    
         // удалить назад, в т. ч. диапазон
-        if(elem.classList.contains('Backspace')) {
+        if(elem.classList.contains("Backspace")) {
             if(pos === posEnd) {
                 textarea.textContent = textarea.textContent.slice(0, pos-1) + textarea.textContent.slice(posEnd);
                 textarea.selectionStart = pos-1;
@@ -121,7 +121,7 @@ function inputText(elem) {
         }
         
         // удаляем вперед, в т.ч. диапазон
-        if(elem.classList.contains('Delete')) { 
+        if(elem.classList.contains("Delete")) { 
             if(pos === posEnd) {
                 textarea.textContent = textarea.textContent.slice(0, pos) + textarea.textContent.slice(posEnd + 1);
                 textarea.selectionStart = posEnd;
@@ -131,59 +131,59 @@ function inputText(elem) {
             }
         }
         // делаем Таб
-        if(elem.classList.contains('Tab')) {
+        if(elem.classList.contains("Tab")) {
            textarea.textContent = textarea.textContent.slice(0, pos) + "        " + textarea.textContent.slice(pos);
            textarea.selectionStart = pos + 8;
         }
 
         // делаем стрелки
-        if(elem.classList.contains('ArrowRight')) {
+        if(elem.classList.contains("ArrowRight")) {
             textarea.selectionEnd++;
             textarea.selectionStart = pos + 1;
             } 
                 
-        if(elem.classList.contains('ArrowLeft')) {
+        if(elem.classList.contains("ArrowLeft")) {
             textarea.selectionStart--;
             textarea.selectionEnd = posEnd-1;
         }
-        if(elem.classList.contains('ArrowDown')) {
+        if(elem.classList.contains("ArrowDown")) {
             textarea.textContent = textarea.textContent.slice(0, pos) + "не хочу вниз🠗" + textarea.textContent.slice(pos);
             textarea.selectionStart = pos + 14;
         }
-        if(elem.classList.contains('ArrowUp')) {
+        if(elem.classList.contains("ArrowUp")) {
             textarea.textContent = textarea.textContent.slice(0, pos) + "не хочу вверх🠕" + textarea.textContent.slice(pos);
             textarea.selectionStart = pos + 15;
         }
 
         // делаем Enter
-        if(elem.classList.contains('Enter')) {
+        if(elem.classList.contains("Enter")) {
             textarea.textContent = textarea.textContent.slice(0, pos) + "\n" + textarea.textContent.slice(pos);
             textarea.selectionStart= pos+1;
           }
     }}
 
 // выделение на Shift + Arrows
-document.addEventListener('keydown', (event) => {
+document.addEventListener("keydown", (event) => {
 
     
-    if(event.shiftKey && event.key == 'ArrowRight') {
+    if(event.shiftKey && event.key == "ArrowRight") {
         console.log(textarea.selectionStart, textarea.selectionEnd);
         textarea.selectionStart = textarea.selectionStart-1;
     }
-    if(event.shiftKey && event.key == 'ArrowLeft') {
+    if(event.shiftKey && event.key == "ArrowLeft") {
         console.log(textarea.selectionStart, textarea.selectionEnd);
         // textarea.selectionStart--;
         textarea.selectionEnd = textarea.selectionEnd+1;
 
     }
-})
+});
 
 // печатаем в текстареа с виртуальной клавиатуры = глючит печать с вирт клавиатуры!!! - проверить
-keyboard.addEventListener('click', (event) => inputText(event.target));
+keyboard.addEventListener("click", (event) => inputText(event.target));
 
 // печать с реальной клавиатуры
-document.addEventListener('keydown', (event) => inputText(document.querySelector(`.${event.code}`)));
-document.addEventListener('keydown', (event) => event.preventDefault());
+document.addEventListener("keydown", (event) => inputText(document.querySelector(`.${event.code}`)));
+document.addEventListener("keydown", (event) => event.preventDefault());
 
 
 //  делаем, чтобы текстареа не теряла фокус при кликам по виртулаьной клавиатуре
@@ -191,7 +191,7 @@ document.addEventListener('keydown', (event) => event.preventDefault());
     if(document.activeElement === textarea) {
         e.preventDefault();
     }
- }
+ };
 
 //   делаем капс
 const buttons = document.querySelectorAll(".key");
@@ -223,9 +223,9 @@ caps.addEventListener("click", () => {
                   el.innerText = el.innerText.toUpperCase();
              } else {
              el.innerText = el.innerText.toLowerCase();
-             }})
+             }});
 
-        caps.classList.toggle('on');
+        caps.classList.toggle("on");
     });
 
 document.addEventListener("keydown", (event) => {
@@ -245,24 +245,24 @@ document.addEventListener("keydown", (event) => {
                  el.innerText = el.innerText.toUpperCase();
             } else {
             el.innerText = el.innerText.toLowerCase();
-            }})
-            caps.classList.toggle('on');    
+            }});
+            caps.classList.toggle("on");    
      } });
 
     //  смена языков
 const rusLetters = ["й", "ц", "у", "к", "е", "н", "г", "ш", "щ", "з", "ф", "ы", "в", "а", "п", "р", "о", "л", "д", "я", "ч", "с", "м","и", "т", "ь"];
-const engLetters = ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'z', 'x', 'c', 'v', 'b', 'n', 'm']; 
+const engLetters = ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "a", "s", "d", "f", "g", "h", "j", "k", "l", "z", "x", "c", "v", "b", "n", "m"]; 
 
-const rusSymbols = ['ё', 'х', 'ъ', 'ж', 'э','б', 'ю'];
-const engSymbols = ['`', '[', ']', ';', '\'',',', '.'];
+const rusSymbols = ["ё", "х", "ъ", "ж", "э","б", "ю"];
+const engSymbols = ["`", "[", "]", ";", "\"",",", "."];
 
 
 const lang = document.querySelector(".lang");
-lang.classList.add ('en');
+lang.classList.add ("en");
 document.addEventListener("keydown", (event) => {
-if(event.altKey && event.shiftKey && lang.classList.contains('en')) {
+if(event.altKey && event.shiftKey && lang.classList.contains("en")) {
        for(let i=0; i < letters.length; i++) {
-            if(caps.classList.contains('on')) {
+            if(caps.classList.contains("on")) {
                 letters[i].innerText = rusLetters[i].toUpperCase();
            } else {
             letters[i].innerText = rusLetters[i];
@@ -270,18 +270,18 @@ if(event.altKey && event.shiftKey && lang.classList.contains('en')) {
        }
 
        for(let i=0; i < symbols.length; i++) {
-        if(caps.classList.contains('on')) {
+        if(caps.classList.contains("on")) {
             symbols[i].innerText = rusSymbols[i].toUpperCase(); 
     } else {
         symbols[i].innerText = rusSymbols[i]; 
     }}        
     
-       lang.textContent = 'RUS'
-       lang.classList.remove('en');
-       lang.classList.add('rus');
-    } else if(event.altKey && event.shiftKey && lang.classList.contains('rus')) {
+       lang.textContent = "RUS";
+       lang.classList.remove("en");
+       lang.classList.add("rus");
+    } else if(event.altKey && event.shiftKey && lang.classList.contains("rus")) {
         for(let i=0; i < letters.length; i++) {
-            if(caps.classList.contains('on')) {
+            if(caps.classList.contains("on")) {
                 letters[i].innerText = engLetters[i].toUpperCase();
             } else {
                 letters[i].innerText = engLetters[i]; 
@@ -291,9 +291,7 @@ if(event.altKey && event.shiftKey && lang.classList.contains('en')) {
             symbols[i].innerText = engSymbols[i]; 
         }
         lang.textContent = "ENG";
-        lang.classList.remove('ru');
-        lang.classList.add('en');
+        lang.classList.remove("ru");
+        lang.classList.add("en");
         }
 });
-
-
