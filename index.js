@@ -1,68 +1,51 @@
-const wrapper = document.createElement("div");
-wrapper.className = "wrapper";
-document.body.append(wrapper);
-
-const h1 = document.createElement("h1");
-h1.className = "title";
-h1.innerHTML = "RSS Виртуальная клавиатура";
-wrapper.append(h1);
-
-const textarea = document.createElement("textarea");
-textarea.className = "textarea";
-wrapper.append(textarea);
-
-const keyboard = document.createElement("div");
-keyboard.className = "keyboard";
-wrapper.append(keyboard);
-
-const text1 = document.createElement("p");
-text1.innerText = "OS: Windows";
-text1.className = "text";
-wrapper.append(text1);
-
-const text2 = document.createElement("p");
-text2.innerText = "Press Alt+Shift to change language";
-text2.className = "text";
-wrapper.append(text2);
-
-for(let i = 0; i <5; i++) {
-let row = document.createElement("div");
-row.className = "row";
-keyboard.append(row);
+// create elements and add them in DOM
+function createElem(elem, elemClass, elemText = "") {
+  const element = document.createElement(elem);
+  element.className = elemClass;
+  element.innerText = elemText;
+  return element;
 }
 
-const rows = document.querySelectorAll(".row");
+const wrapper = createElem("div", "wrapper");
+const h1 = createElem("h1", "title", "RSS Виртуальная клавиатура");
+const textarea = createElem("textarea", "textarea");
+const keyboard = createElem("div", "keyboard");
+const text1 = createElem("p", "text", "OS: Windows");
+const text2 = createElem("p", "text", "Press Alt+Shift to change language");
+
+document.body.append(wrapper);
+wrapper.append(h1, textarea, keyboard, text1, text2);
 
 function buttonMaker (key, place, ownClass) {
-    const button = document.createElement("div");
-    button.className = "key";
-    button.classList.add(ownClass);
-    button.innerText = key;
-    place.append(button);
+  const button = createElem("div", "key", key);
+  button.classList.add(ownClass);
+  place.append(button);
 }
 
-const row0 = ["`", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "-", "=", "BackSpace"];
-const row1 = ["Tab", "q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "[", "]", "\\", "Del"];
-const row2 = ["Capslock", "a", "s", "d", "f", "g", "h", "j", "k", "l", ";", "'", "Enter"];
-const row3 = ["Shift", "z", "x", "c", "v", "b", "n", "m", ",", ".", "/", "▲", "Shift"];
-const row4 = ["Ctrl", "ENG ", "Alt", " ", "Alt", "◄", "▼", "►", "Ctrl"];
+const rowList = [ 
+  ["`", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "-", "=", "BackSpace"],
+  ["Tab", "q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "[", "]", "\\", "Del"],
+  ["Capslock", "a", "s", "d", "f", "g", "h", "j", "k", "l", ";", "'", "Enter"],
+  ["Shift", "z", "x", "c", "v", "b", "n", "m", ",", ".", "/", "▲", "Shift"],
+  ["Ctrl", "ENG ", "Alt", " ", "Alt", "◄", "▼", "►", "Ctrl"],
+];
 
-const rowList = [row0, row1, row2, row3, row4];
-
-const ownClass0 = ["Backquote", "Digit1", "Digit2", "Digit3", "Digit4", "Digit5", "Digit6", "Digit7", "Digit8", "Digit9", "Digit0", "Minus", "Equal", "Backspace"];
-const ownClass1 = ["Tab", "KeyQ",  "KeyW", "KeyE", "KeyR", "KeyT", "KeyY", "KeyU", "KeyI", "KeyO", "KeyP",  "BracketLeft", "BracketRight", "Backslash", "Delete"];
-const ownClass2 = ["CapsLock",  "KeyA", "KeyS", "KeyD", "KeyF", "KeyG", "KeyH", "KeyJ", "KeyK", "KeyL", "Semicolon", "Quote", "Enter"];
-const ownClass3 = ["ShiftLeft",  "KeyZ", "KeyX", "KeyC", "KeyV", "KeyB", "KeyN", "KeyM", "Comma", "Period", "Slash", "ArrowUp", "ShiftRight"];
-const ownClass4 = ["ControlLeft", "lang", "AltLeft", "Space", "AltRight", "ArrowLeft", "ArrowDown", "ArrowRight", "ControlRight"];
-
-
-const ownClasses = [ownClass0, ownClass1, ownClass2, ownClass3, ownClass4];
+const ownClasses = [
+  ["Backquote", "Digit1", "Digit2", "Digit3", "Digit4", "Digit5", "Digit6", "Digit7", "Digit8", "Digit9", "Digit0", "Minus", "Equal", "Backspace"],
+  ["Tab", "KeyQ",  "KeyW", "KeyE", "KeyR", "KeyT", "KeyY", "KeyU", "KeyI", "KeyO", "KeyP",  "BracketLeft", "BracketRight", "Backslash", "Delete"],
+  ["CapsLock",  "KeyA", "KeyS", "KeyD", "KeyF", "KeyG", "KeyH", "KeyJ", "KeyK", "KeyL", "Semicolon", "Quote", "Enter"],
+  ["ShiftLeft",  "KeyZ", "KeyX", "KeyC", "KeyV", "KeyB", "KeyN", "KeyM", "Comma", "Period", "Slash", "ArrowUp", "ShiftRight"],
+  ["ControlLeft", "lang", "AltLeft", "Space", "AltRight", "ArrowLeft", "ArrowDown", "ArrowRight", "ControlRight"],
+];
 
 for (let i = 0; i < 5; i++) {
-    for(let j= 0; j < rowList[i].length; j++) {
-        buttonMaker(rowList[i][j], rows[i], ownClasses[i][j]);
-    }
+  let row = createElem("div", "row");
+  keyboard.append(row);
+  for(let j= 0; j < rowList[i].length; j++) {
+    buttonMaker(rowList[i][j], row, ownClasses[i][j]);
+  }
 }
+
 // подсветка клавиш
 document.addEventListener("keydown", (event) => {
    const elem =  document.querySelector(`.${event.code}`);
