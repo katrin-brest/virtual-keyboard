@@ -1,299 +1,197 @@
-const wrapper = document.createElement("div");
-wrapper.className = "wrapper";
+// create elements and add them in DOM
+const createElem = (elem, elemClass, elemText = '') => {
+  const element = document.createElement(elem);
+  element.className = elemClass;
+  element.innerText = elemText;
+  return element;
+};
+
+const wrapper = createElem('div', 'wrapper');
+const h1 = createElem('h1', 'title', 'RSS Виртуальная клавиатура');
+const textarea = createElem('textarea', 'textarea');
+const keyboard = createElem('div', 'keyboard');
+const text1 = createElem('p', 'text', 'OS: Windows');
+const text2 = createElem('p', 'text', 'Press Alt+Shift to change language');
+
 document.body.append(wrapper);
+wrapper.append(h1, textarea, keyboard, text1, text2);
 
-const h1 = document.createElement("h1");
-h1.className = "title";
-h1.innerHTML = "RSS Виртуальная клавиатура";
-wrapper.append(h1);
+const buttonMaker = (key, place, ownClass) => {
+  const button = createElem('div', 'key', key);
+  button.classList.add(ownClass);
+  place.append(button);
+};
 
-const textarea = document.createElement("textarea");
-textarea.className = "textarea";
-wrapper.append(textarea);
+const layout = {
+  en: [
+    ['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'BackSpace'],
+    ['Tab', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '[', ']', '\\', 'Del'],
+    ['Capslock', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', "'", 'Enter'],
+    ['Shift', 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/', '▲', 'Shift'],
+    ['Ctrl', 'ENG', 'Alt', '  ', 'Alt', '◄', '▼', '►', 'Ctrl'],
+  ],
+  ru: [
+    ['ё', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'BackSpace'],
+    ['Tab', 'й', 'ц', 'у', 'к', 'е', 'н', 'г', 'ш', 'щ', 'з', 'х', 'ъ', '\\', 'Del'],
+    ['Capslock', 'ф', 'ы', 'в', 'а', 'п', 'р', 'о', 'л', 'д', 'ж', 'э', 'Enter'],
+    ['Shift', 'я', 'ч', 'с', 'м', 'и', 'т', 'ь', 'б', 'ю', '.', '▲', 'Shift'],
+    ['Ctrl', 'РУС', 'Alt', '  ', 'Alt', '◄', '▼', '►', 'Ctrl'],
+  ],
+};
 
-const keyboard = document.createElement("div");
-keyboard.className = "keyboard";
-wrapper.append(keyboard);
+const ownClasses = [
+  ['Backquote', 'Digit1', 'Digit2', 'Digit3', 'Digit4', 'Digit5', 'Digit6', 'Digit7', 'Digit8', 'Digit9', 'Digit0', 'Minus', 'Equal', 'Backspace'],
+  ['Tab', 'KeyQ', 'KeyW', 'KeyE', 'KeyR', 'KeyT', 'KeyY', 'KeyU', 'KeyI', 'KeyO', 'KeyP', 'BracketLeft', 'BracketRight', 'Backslash', 'Delete'],
+  ['CapsLock', 'KeyA', 'KeyS', 'KeyD', 'KeyF', 'KeyG', 'KeyH', 'KeyJ', 'KeyK', 'KeyL', 'Semicolon', 'Quote', 'Enter'],
+  ['ShiftLeft', 'KeyZ', 'KeyX', 'KeyC', 'KeyV', 'KeyB', 'KeyN', 'KeyM', 'Comma', 'Period', 'Slash', 'ArrowUp', 'ShiftRight'],
+  ['ControlLeft', 'lang', 'AltLeft', 'Space', 'AltRight', 'ArrowLeft', 'ArrowDown', 'ArrowRight', 'ControlRight'],
+];
+let lg = localStorage.getItem('lang') ?? 'en';
 
-const text1 = document.createElement("p");
-text1.innerText = "OS: Windows";
-text1.className = "text";
-wrapper.append(text1);
-
-const text2 = document.createElement("p");
-text2.innerText = "Press Alt+Shift to change language";
-text2.className = "text";
-wrapper.append(text2);
-
-for(let i = 0; i <5; i++) {
-let row = document.createElement("div");
-row.className = "row";
-keyboard.append(row);
+for (let i = 0; i < 5; i += 1) {
+  const row = createElem('div', 'row');
+  keyboard.append(row);
+  for (let j = 0; j < layout[lg][i].length; j += 1) {
+    buttonMaker(layout[lg][i][j], row, ownClasses[i][j]);
+  }
 }
 
-const rows = document.querySelectorAll(".row");
+// highlights on keydown
+const findElem = (event) => document.querySelector(`.${event.code}`);
+document.addEventListener('keydown', (event) => findElem(event).classList.add('active'));
+document.addEventListener('keyup', (event) => findElem(event).classList.remove('active'));
 
-function buttonMaker (key, place, ownClass) {
-    const button = document.createElement("div");
-    button.className = "key";
-    button.classList.add(ownClass);
-    button.innerText = key;
-    place.append(button);
-}
+// actions for keys
+const notPrintable = ['Backspace', 'Tab', 'Delete', 'CapsLock', 'Enter', 'ShiftLeft', 'ShiftRight', 'ControlLeft', 'AltLeft', 'lang', 'AltRight', 'ControlRight', 'ArrowLeft', 'ArrowRight'];
 
-const row0 = ["`", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "-", "=", "BackSpace"];
-const row1 = ["Tab", "q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "[", "]", "\\", "Del"];
-const row2 = ["Capslock", "a", "s", "d", "f", "g", "h", "j", "k", "l", ";", "'", "Enter"];
-const row3 = ["Shift", "z", "x", "c", "v", "b", "n", "m", ",", ".", "/", "▲", "Shift"];
-const row4 = ["Ctrl", "ENG ", "Alt", " ", "Alt", "◄", "▼", "►", "Ctrl"];
+const shouldPrint = (elem) => !notPrintable.find((el) => elem.classList.contains(el));
 
-const rowList = [row0, row1, row2, row3, row4];
+const typeElem = (elem) => {
+  if (!elem.classList.contains('key')) return;
 
-const ownClass0 = ["Backquote", "Digit1", "Digit2", "Digit3", "Digit4", "Digit5", "Digit6", "Digit7", "Digit8", "Digit9", "Digit0", "Minus", "Equal", "Backspace"];
-const ownClass1 = ["Tab", "KeyQ",  "KeyW", "KeyE", "KeyR", "KeyT", "KeyY", "KeyU", "KeyI", "KeyO", "KeyP",  "BracketLeft", "BracketRight", "Backslash", "Delete"];
-const ownClass2 = ["CapsLock",  "KeyA", "KeyS", "KeyD", "KeyF", "KeyG", "KeyH", "KeyJ", "KeyK", "KeyL", "Semicolon", "Quote", "Enter"];
-const ownClass3 = ["ShiftLeft",  "KeyZ", "KeyX", "KeyC", "KeyV", "KeyB", "KeyN", "KeyM", "Comma", "Period", "Slash", "ArrowUp", "ShiftRight"];
-const ownClass4 = ["ControlLeft", "lang", "AltLeft", "Space", "AltRight", "ArrowLeft", "ArrowDown", "ArrowRight", "ControlRight"];
+  if (!textarea.onfocus) {
+    textarea.focus();
+  }
 
+  const pos = textarea.selectionStart;
+  const posEnd = textarea.selectionEnd;
 
-const ownClasses = [ownClass0, ownClass1, ownClass2, ownClass3, ownClass4];
-
-for (let i = 0; i < 5; i++) {
-    for(let j= 0; j < rowList[i].length; j++) {
-        buttonMaker(rowList[i][j], rows[i], ownClasses[i][j]);
-    }
-}
-// подсветка клавиш
-document.addEventListener("keydown", (event) => {
-   const elem =  document.querySelector(`.${event.code}`);
-      if(elem === null) {
-       return;
-   } else {
-       elem.classList.add("active");
-       }});
-
-document.addEventListener("keyup", (event) => {
-    let elem =  document.querySelector(`.${event.code}`);
-    if(elem === null) {
-     return ;
- } else {
-    elem.classList.remove("active");
-   }});
-
-
-// Выносим действия с клавишами в отдельную функцию
-
-function inputText(elem) {
-
-    if(!textarea.onfocus) {
-        textarea.focus();
-    }
-    let pos = textarea.selectionStart;
-    let posEnd = textarea.selectionEnd;
-    
-    if(elem === null) {
-        return ;
+  // print letters, digits, space and symbols
+  if (shouldPrint(elem)) {
+    textarea.textContent = textarea.textContent.slice(0, pos)
+     + elem.textContent + textarea.textContent.slice(pos);
+    textarea.selectionStart = pos + 1;
+  }
+  // backspace
+  if (elem.classList.contains('Backspace')) {
+    if (pos === posEnd) {
+      textarea.textContent = textarea.textContent.slice(0, pos - 1)
+       + textarea.textContent.slice(posEnd);
+      textarea.selectionStart = pos - 1;
     } else {
-        //   печатаем буквы, цифры и символы
-        if(elem.classList.contains("letter") || elem.classList.contains("digit")|| elem.classList.contains("Equal") || elem.classList.contains("Minus")|| elem.classList.contains('Backquote') || elem.classList.contains("BracketRight") || elem.classList.contains("BracketLeft") ||elem.classList.contains("Backslash") || elem.classList.contains("Semicolon") || elem.classList.contains("Comma")|| elem.classList.contains("Period")||elem.classList.contains("Slash") || elem.classList.contains("Quote") ) {
-           
-            if(pos == 0) {
-            textarea.textContent += elem.innerText;
-            } else {
-            textarea.textContent = textarea.textContent.slice(0, pos) + elem.innerText + textarea.textContent.slice(pos);
-            }
-            textarea.selectionStart = pos+1;
-        }
-        // пробел
-        if(elem.classList.contains("Space")){
-            textarea.textContent = textarea.textContent.slice(0, pos) + " " + textarea.textContent.slice(pos);
-            textarea.selectionStart = pos+1;  
-        }    
-        // удалить назад, в т. ч. диапазон
-        if(elem.classList.contains('Backspace')) {
-            if(pos === posEnd) {
-                textarea.textContent = textarea.textContent.slice(0, pos-1) + textarea.textContent.slice(posEnd);
-                textarea.selectionStart = pos-1;
-            } else {
-                textarea.textContent = textarea.textContent.slice(0, pos) + textarea.textContent.slice(posEnd);
-                textarea.selectionStart = pos;
-            }
-        }
-        
-        // удаляем вперед, в т.ч. диапазон
-        if(elem.classList.contains('Delete')) { 
-            if(pos === posEnd) {
-                textarea.textContent = textarea.textContent.slice(0, pos) + textarea.textContent.slice(posEnd + 1);
-                textarea.selectionStart = posEnd;
-            } else {
-                textarea.textContent = textarea.textContent.slice(0, pos) + textarea.textContent.slice(posEnd);
-                textarea.selectionStart = pos;
-            }
-        }
-        // делаем Таб
-        if(elem.classList.contains('Tab')) {
-           textarea.textContent = textarea.textContent.slice(0, pos) + "        " + textarea.textContent.slice(pos);
-           textarea.selectionStart = pos + 8;
-        }
-
-        // делаем стрелки
-        if(elem.classList.contains('ArrowRight')) {
-            textarea.selectionEnd++;
-            textarea.selectionStart = pos + 1;
-            } 
-                
-        if(elem.classList.contains('ArrowLeft')) {
-            textarea.selectionStart--;
-            textarea.selectionEnd = posEnd-1;
-        }
-        if(elem.classList.contains('ArrowDown')) {
-            textarea.textContent = textarea.textContent.slice(0, pos) + "не хочу вниз🠗" + textarea.textContent.slice(pos);
-            textarea.selectionStart = pos + 14;
-        }
-        if(elem.classList.contains('ArrowUp')) {
-            textarea.textContent = textarea.textContent.slice(0, pos) + "не хочу вверх🠕" + textarea.textContent.slice(pos);
-            textarea.selectionStart = pos + 15;
-        }
-
-        // делаем Enter
-        if(elem.classList.contains('Enter')) {
-            textarea.textContent = textarea.textContent.slice(0, pos) + "\n" + textarea.textContent.slice(pos);
-            textarea.selectionStart= pos+1;
-          }
-    }}
-
-// выделение на Shift + Arrows
-document.addEventListener('keydown', (event) => {
-
-    
-    if(event.shiftKey && event.key == 'ArrowRight') {
-        console.log(textarea.selectionStart, textarea.selectionEnd);
-        textarea.selectionStart = textarea.selectionStart-1;
+      textarea.textContent = textarea.textContent.slice(0, pos)
+       + textarea.textContent.slice(posEnd);
+      textarea.selectionStart = pos;
     }
-    if(event.shiftKey && event.key == 'ArrowLeft') {
-        console.log(textarea.selectionStart, textarea.selectionEnd);
-        // textarea.selectionStart--;
-        textarea.selectionEnd = textarea.selectionEnd+1;
-
+  }
+  // delete
+  if (elem.classList.contains('Delete')) {
+    if (pos === posEnd) {
+      textarea.textContent = textarea.textContent.slice(0, pos)
+       + textarea.textContent.slice(posEnd + 1);
+      textarea.selectionStart = posEnd;
+    } else {
+      textarea.textContent = textarea.textContent.slice(0, pos)
+       + textarea.textContent.slice(posEnd);
+      textarea.selectionStart = pos;
     }
-})
-
-// печатаем в текстареа с виртуальной клавиатуры = глючит печать с вирт клавиатуры!!! - проверить
-keyboard.addEventListener('click', (event) => inputText(event.target));
-
-// печать с реальной клавиатуры
-document.addEventListener('keydown', (event) => inputText(document.querySelector(`.${event.code}`)));
+  }
+  // Tab
+  if (elem.classList.contains('Tab')) {
+    textarea.textContent = `${textarea.textContent.slice(0, pos)}    ${textarea.textContent.slice(pos)}`;
+    textarea.selectionStart = pos + 4;
+  }
+  // Arrows
+  if (elem.classList.contains('ArrowRight')) {
+    textarea.selectionEnd += 1;
+    textarea.selectionStart = pos + 1;
+  }
+  if (elem.classList.contains('ArrowLeft')) {
+    textarea.selectionStart -= 1;
+    textarea.selectionEnd = posEnd - 1;
+  }
+  // Enter
+  if (elem.classList.contains('Enter')) {
+    textarea.textContent = `${textarea.textContent.slice(0, pos)}\n${textarea.textContent.slice(pos)}`;
+    textarea.selectionStart = pos + 1;
+  }
+};
+// type from virtual keyboard
+keyboard.addEventListener('click', (event) => typeElem(event.target));
+// type from real keyboard
+document.addEventListener('keydown', (event) => typeElem(document.querySelector(`.${event.code}`)));
 document.addEventListener('keydown', (event) => event.preventDefault());
 
+// Shift + Arrows
+// TODO - on virtual keyboard
+function selectText(event) {
+  if (event.shiftKey && event.key === 'ArrowRight') {
+    textarea.selectionStart -= 1;
+  }
+  if (event.shiftKey && event.key === 'ArrowLeft') {
+    textarea.selectionEnd += 1;
+  }
+}
+document.addEventListener('keydown', (e) => selectText(e));
 
-//  делаем, чтобы текстареа не теряла фокус при кликам по виртулаьной клавиатуре
- keyboard.onmousedown = (e) => {
-    if(document.activeElement === textarea) {
-        e.preventDefault();
+// focus on textarea
+keyboard.onmousedown = (e) => {
+  if (document.activeElement === textarea) {
+    e.preventDefault();
+  }
+};
+
+const buttons = document.querySelectorAll('.key'); //
+
+// Caps Lock
+const caps = document.querySelector('.CapsLock');
+let isCapsOn = false;
+
+const changeLetterCase = () => {
+  buttons.forEach((el) => {
+    if (shouldPrint(el)) {
+      const btn = el;
+      btn.textContent = isCapsOn ? el.textContent.toUpperCase() : el.textContent.toLowerCase();
     }
- }
+  });
+};
 
-//   делаем капс
-const buttons = document.querySelectorAll(".key");
+const toggleCaps = () => {
+  isCapsOn = !isCapsOn;
+  changeLetterCase();
+  caps.classList.toggle('on');
+};
 
-for(let but of buttons) {
-    if (but.className.includes("Key")) {
-        but.classList.add("letter");
-    } else if (but.className.includes("Digit")) {
-        but.classList.add("digit");
-    }
- }
-
-const letters = document.querySelectorAll(".letter");
-const symbols= [buttons[0], buttons[25], buttons[26], buttons [39], buttons[40], buttons[50], buttons[51]];
-
-const caps = document.querySelector(".CapsLock");
-
-caps.addEventListener("click", () => {
-
-         letters.forEach(el => {
-            if(el.innerText == el.innerText.toLowerCase()) {
-                el.innerText = el.innerText.toUpperCase();
-                 } else {
-                el.innerText = el.innerText.toLowerCase();
-            }
-        });
-        symbols.forEach(el => {
-            if(el.innerText == el.innerText.toLowerCase()) {
-                  el.innerText = el.innerText.toUpperCase();
-             } else {
-             el.innerText = el.innerText.toLowerCase();
-             }})
-
-        caps.classList.toggle('on');
-    });
-
-document.addEventListener("keydown", (event) => {
-        if(event.code == "CapsLock") {
-
-            console.log(event.key);
-
-            letters.forEach(el => {
-                if(el.innerText == el.innerText.toLowerCase()) {
-                    el.innerText = el.innerText.toUpperCase();
-                   } else {
-                  el.innerText = el.innerText.toLowerCase();
-                      }});
-
-       symbols.forEach(el => {
-           if(el.innerText == el.innerText.toLowerCase()) {
-                 el.innerText = el.innerText.toUpperCase();
-            } else {
-            el.innerText = el.innerText.toLowerCase();
-            }})
-            caps.classList.toggle('on');    
-     } });
-
-    //  смена языков
-const rusLetters = ["й", "ц", "у", "к", "е", "н", "г", "ш", "щ", "з", "ф", "ы", "в", "а", "п", "р", "о", "л", "д", "я", "ч", "с", "м","и", "т", "ь"];
-const engLetters = ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'z', 'x', 'c', 'v', 'b', 'n', 'm']; 
-
-const rusSymbols = ['ё', 'х', 'ъ', 'ж', 'э','б', 'ю'];
-const engSymbols = ['`', '[', ']', ';', '\'',',', '.'];
-
-
-const lang = document.querySelector(".lang");
-lang.classList.add ('en');
-document.addEventListener("keydown", (event) => {
-if(event.altKey && event.shiftKey && lang.classList.contains('en')) {
-       for(let i=0; i < letters.length; i++) {
-            if(caps.classList.contains('on')) {
-                letters[i].innerText = rusLetters[i].toUpperCase();
-           } else {
-            letters[i].innerText = rusLetters[i];
-           }           
-       }
-
-       for(let i=0; i < symbols.length; i++) {
-        if(caps.classList.contains('on')) {
-            symbols[i].innerText = rusSymbols[i].toUpperCase(); 
-    } else {
-        symbols[i].innerText = rusSymbols[i]; 
-    }}        
-    
-       lang.textContent = 'RUS'
-       lang.classList.remove('en');
-       lang.classList.add('rus');
-    } else if(event.altKey && event.shiftKey && lang.classList.contains('rus')) {
-        for(let i=0; i < letters.length; i++) {
-            if(caps.classList.contains('on')) {
-                letters[i].innerText = engLetters[i].toUpperCase();
-            } else {
-                letters[i].innerText = engLetters[i]; 
-            }                     
-        }
-        for(let i=0; i < symbols.length; i++) {
-            symbols[i].innerText = engSymbols[i]; 
-        }
-        lang.textContent = "ENG";
-        lang.classList.remove('ru');
-        lang.classList.add('en');
-        }
+caps.addEventListener('click', toggleCaps);
+document.addEventListener('keydown', (event) => {
+  if (event.code === 'CapsLock') {
+    toggleCaps();
+  }
 });
 
-
+// change language
+document.addEventListener('keydown', (event) => {
+  if (event.altKey && event.shiftKey) {
+    lg = lg === 'ru' ? 'en' : 'ru';
+    for (let i = 0; i < 5; i += 1) {
+      const row = document.querySelectorAll('.row')[i];
+      for (let j = 0; j < layout[lg][i].length; j += 1) {
+        row.children[j].textContent = layout[lg][i][j];
+      }
+    }
+    if (isCapsOn) {
+      changeLetterCase();
+    }
+    localStorage.setItem('lang', lg);
+  }
+});
