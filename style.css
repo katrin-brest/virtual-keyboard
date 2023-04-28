@@ -79,11 +79,15 @@ body {
 }
 
 .key:hover {
-    cursor: pointer;
+  cursor: pointer;
+}
+
+.key:active {
     transition: 0.3s;
     transform: scale(1.3);
     border: 2px solid #C45F90;
 }
+
 
 .Backspace, .CapsLock, .ShiftLeft {
     width: 96px;
