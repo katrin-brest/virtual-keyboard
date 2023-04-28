@@ -1,0 +1,125 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color:#4D4C60;
+}
+
+.wrapper {
+    width: 800px;
+    height: 70vh;
+    margin: 15vh auto;
+    padding: 20px;
+    background-color: #C45F90;
+    border-radius: 8%;
+
+}
+
+.title {
+    text-align: center;
+    font-family: 'Franklin Gothic Medium', Arial, sans-serif;
+    letter-spacing: 0.3em;
+    color:#4D4C60;
+}
+.textarea {
+    width: 692px !important;
+    height: 150px;
+    display: block;
+    outline: none;
+    border: none;
+    margin: 30px auto;
+    resize: none;
+    overflow: hidden;
+    padding: 10px;
+    font-family: 'Franklin Gothic Medium', Arial, sans-serif;
+    font-size: 14px;
+    letter-spacing: 0.1em;
+    border-radius: 5px;
+    background-color: #fceaea;
+    color: #4D4C60;
+ }
+
+.textarea:focus {
+    border: 4px solid #4D4C60;
+}
+
+.keyboard {
+    width: 694px;
+    margin: 0 auto;
+    background-color: #fceaea;
+    border-radius: 5px;
+    padding-bottom: 5px;
+    padding-top: 1px;
+}
+
+.row {
+    width: 100%;
+    height: 40px;
+    margin-top: 5px;
+}
+
+.key {
+    float: left;
+    width: 40px;
+    height: 40px;
+    margin-left: 5px;
+    text-align: center;
+    background-color:#4D4C60;
+    color:#C45F90;
+    font-weight: 600;
+    font-size: 14px;
+    text-align: center;
+    line-height: 40px;
+    border-radius: 5px;
+    font-family: 'Franklin Gothic Medium', Arial, sans-serif;
+    letter-spacing: 2px;
+}
+
+.key:hover {
+  cursor: pointer;
+}
+
+.key:active {
+    transition: 0.3s;
+    transform: scale(1.3);
+    border: 2px solid #C45F90;
+}
+
+
+.Backspace, .CapsLock, .ShiftLeft {
+    width: 96px;
+}
+.Tab {
+    width: 48px;
+}
+.Delete {
+    width: 44px;
+}
+.Enter, .ShiftRight {
+    width: 86px;
+}
+.Space {
+    width: 321px;
+}
+
+.active {
+    transition: 00.3s;
+    transform: scale(1.3);
+    border: 2px solid #C45F90;
+}
+
+.text {
+    margin-top: 25px;
+    text-align: center;
+    font-size: 16px;
+    font-style: italic;
+    color: #4D4C60;
+    font-family: 'Franklin Gothic Medium', Arial, sans-serif;
+}
+
+.on {
+    text-transform: uppercase;
+}
