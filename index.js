@@ -155,7 +155,7 @@ const buttons = document.querySelectorAll('.key'); //
 
 // Caps Lock
 const caps = document.querySelector('.CapsLock');
-let isCapsOn = localStorage.getItem('caps') ?? false;
+let isCapsOn = false;
 
 const changeLetterCase = () => {
   buttons.forEach((el) => {
@@ -170,15 +170,8 @@ const toggleCaps = () => {
   isCapsOn = !isCapsOn;
   changeLetterCase();
   caps.classList.toggle('on');
-  localStorage.setItem('caps', isCapsOn);
 };
 
-document.addEventListener('DOMContentLoaded', () => {
-  if (isCapsOn) {
-    changeLetterCase();
-    caps.classList.add('on');
-  }
-});
 caps.addEventListener('click', toggleCaps);
 document.addEventListener('keydown', (event) => {
   if (event.code === 'CapsLock') {
